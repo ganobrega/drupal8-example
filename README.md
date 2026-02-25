@@ -1,3 +1,17 @@
+# Drupal 8 com Docker
+
+> **Requisito:** Execute todos os comandos e passos deste guia **dentro do WSL 2** (Windows Subsystem for Linux 2). O ambiente foi pensado para rodar no WSL 2; usar PowerShell ou CMD no Windows pode causar problemas de caminhos e permissões.
+
+
+```bash
+wsl
+mkdir ~/projects/drupal8
+cd ~/projects/drupal8
+
+```
+
+---
+
 # 1 — Criar o repositório (Git)
 
 Esse é **sempre o primeiro passo**.
@@ -5,7 +19,7 @@ Docker e Drupal entram dentro dele.
 
 Estrutura inicial (vazia)
 ```
-drupal8-project/
+drupal8/
 ├── docker/
 │   ├── Dockerfile
 │   └── php.ini
