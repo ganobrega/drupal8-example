@@ -1,1 +1,32 @@
 .env
+
+# Dependências
+/app/vendor/
+
+# Arquivos gerados pelo Drupal
+/app/web/sites/*/files/
+/app/web/sites/*/private/
+
+# Configurações sensíveis
+/app/web/sites/*/settings.php
+/app/web/sites/*/settings.local.php
+/app/web/sites/*/services.yml
+
+# Docker / Ambiente
+.env
+.env.*
+docker-compose.override.yml
+
+# Logs / Cache
+*.log
+/tmp/
+/cache/
+
+# IDE / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Composer
+/composer.phar
