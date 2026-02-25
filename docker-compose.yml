@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupal
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db_data:/var/lib/mysql
+
+  web:
+    build: ./docker
+    ports:
+      - "${HOST_PORT:-8080}:80"
+    volumes:
+      - ./app:/var/www/html
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+  drupal_code:
