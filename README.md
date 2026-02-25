@@ -95,8 +95,14 @@ docker compose up -d --build
 Agora sim o CMS entra.
 
 ```bash
-docker exec -it drupal8*web* bash
-composer create-project drupal/recommended-project:^8.9 app
+docker ps
+```
+
+Busque o ID do container que está ligado o drupal8-example-web-1
+
+```bash
+docker exec -it 123 bash
+composer create-project drupal/recommended-project:^8.9 app -n --prefer-dist --no-progress
 exit
 ```
 
