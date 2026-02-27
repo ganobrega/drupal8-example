@@ -2,8 +2,6 @@
 
 up:
 	docker compose up -d --build
-	@CRON_LINE="*/15 * * * * cd $(PWD) && make backup >/dev/null 2>&1"; \
-		(crontab -l 2>/dev/null | grep -F -v -x "$$CRON_LINE" || true; echo "$$CRON_LINE") | crontab -
 
 down:
 	docker compose down
