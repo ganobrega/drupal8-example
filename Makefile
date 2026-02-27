@@ -1,34 +1,38 @@
-.PHONY: shell up down rebuild backup-drupal backup-db restore migrate-db
+.PHONY: up down rebuild backup backup-sites backup-db backup-vendor restore-sites restore-db restore-vendor
 
 up:
 	docker compose up -d --build
-	@CRON_LINE="*/15 * * * * cd $(PWD) && make backup >/dev/null 2>&1"; \
-		(crontab -l 2>/dev/null | grep -F -v -x "$$CRON_LINE" || true; echo "$$CRON_LINE") | crontab -
 
 down:
 	docker compose down
-
-shell:
-	docker exec -it drupal8-example-web-1 bash
 
 rebuild:
 	docker compose build --no-cache web
 
 backup:
-	make backup-drupal
-	make backup-db
+	chmod +x scripts/backup-all.sh
+	./scripts/backup-all.sh
 
-backup-drupal:
+backup-sites:
 	chmod +x scripts/backup-sites.sh
 	./scripts/backup-sites.sh
+
+backup-vendor:
+	chmod +x scripts/backup-vendor.sh
+	./scripts/backup-vendor.sh
 
 backup-db:
 	chmod +x scripts/backup-db.sh
 	./scripts/backup-db.sh
 
-restore:
+restore-sites:
 	chmod +x scripts/restore-sites.sh
 	./scripts/restore-sites.sh $(BACKUP)
 
-migrate-db:
-	./scripts/migrate-db-to-host.sh
+restore-db:
+	chmod +x scripts/restore-db.sh
+	./scripts/restore-db.sh $(DB_DUMP)
+
+restore-vendor:
+	chmod +x scripts/restore-vendor.sh
+	./scripts/restore-vendor.sh $(VENDOR_BACKUP)

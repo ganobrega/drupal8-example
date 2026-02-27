@@ -145,3 +145,38 @@ Banco:
 - Senha: `drupal`
 
 Pronto 🎉
+
+## Conferir banco de dados
+
+Rode no projeto:
+
+```bash
+docker compose exec db mysql -u drupal -p drupal
+```
+
+No prompt do MySQL:
+```bash
+SHOW DATABASES;
+USE drupal;
+SHOW TABLES;
+```
+
+## Dump do banco de dados
+
+Para gerar um dump local do banco MySQL em `dump-drupal.sql`:
+
+```bash
+docker compose exec db mysqldump --no-tablespaces -u drupal -pdrupal drupal > dump-drupal.sql
+```
+
+## Restaurar banco a partir do dump
+
+Para apagar o banco atual `drupal`, recriá‑lo e importar o dump:
+
+```bash
+# Dropar e recriar o banco
+docker compose exec db mysql -uroot -proot -e "DROP DATABASE IF EXISTS drupal; CREATE DATABASE drupal;"
+
+# Importar o dump (rodar na pasta do projeto, onde está o dump-drupal.sql)
+docker compose exec -T db mysql -udrupal -pdrupal drupal < dump-drupal.sql
+```

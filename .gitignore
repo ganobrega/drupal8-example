@@ -25,6 +25,7 @@
 docker-compose.override.yml
 /mysql-data/
 /backups/
+*.sql
 
 # Logs / Cache
 *.log

@@ -14,8 +14,9 @@ fi
 
 mkdir -p "${BACKUP_DIR}"
 
-TIMESTAMP="$(date +"%Y-%m-%d-%H-%M")"
-BACKUP_FILE="${BACKUP_DIR}/backup-${TIMESTAMP}.tar.gz"
+# Permite reutilizar um timestamp externo (por exemplo, via backup-all.sh)
+TIMESTAMP="${TIMESTAMP:-$(date +"%Y-%m-%d-%H-%M-%S")}"
+BACKUP_FILE="${BACKUP_DIR}/sites-backup-${TIMESTAMP}.tar.gz"
 
 echo "Gerando backup de ${SITES_DIR} em ${BACKUP_FILE}..."
 

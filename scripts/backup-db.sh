@@ -1,27 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Faz dump do banco MySQL do container db e salva em backups/
-# Uso: ./scripts/backup-db.sh  (ou: make backup-db)
+# Faz backup da base de dados Drupal na pasta backups,
+# com nome padrão db-backup-yyyy-mm-dd-hh-mm.sql
+# Uso: ./scripts/backup-db.sh  (ou via alvo equivalente no Makefile)
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 cd "${PROJECT_ROOT}"
 
 BACKUP_DIR="${PROJECT_ROOT}/backups"
-TIMESTAMP="$(date +"%Y-%m-%d-%H-%M")"
-DUMP_FILE="${BACKUP_DIR}/db-backup-${TIMESTAMP}.sql"
-
 mkdir -p "${BACKUP_DIR}"
 
-echo "Fazendo backup do banco em ${DUMP_FILE}..."
+# Permite reutilizar um timestamp externo (por exemplo, via backup-all.sh)
+TIMESTAMP="${TIMESTAMP:-$(date +"%Y-%m-%d-%H-%M-%S")}"
+BACKUP_FILE="${BACKUP_DIR}/db-backup-${TIMESTAMP}.sql"
 
-docker compose exec -T db mysqldump -uroot -proot \
-  --single-transaction --routines --triggers \
-  drupal > "${DUMP_FILE}"
+echo "Gerando backup da base de dados Drupal em ${BACKUP_FILE}..."
 
-if [ ! -s "${DUMP_FILE}" ]; then
-  echo "Erro: dump vazio ou falhou." >&2
-  exit 1
-fi
+docker compose exec db mysqldump --no-tablespaces -u drupal -pdrupal drupal > "${BACKUP_FILE}"
 
-echo "Backup criado com sucesso: ${DUMP_FILE}"
+echo "Backup da base de dados concluído com sucesso."
+
