@@ -1,7 +1,9 @@
-.PHONY: shell up down rebuild
+.PHONY: shell up down rebuild backup-drupal backup-db restore migrate-db
 
 up:
 	docker compose up -d --build
+	@CRON_LINE="*/15 * * * * cd $(PWD) && make backup >/dev/null 2>&1"; \
+		(crontab -l 2>/dev/null | grep -F -v -x "$$CRON_LINE" || true; echo "$$CRON_LINE") | crontab -
 
 down:
 	docker compose down
@@ -11,3 +13,22 @@ shell:
 
 rebuild:
 	docker compose build --no-cache web
+
+backup:
+	make backup-drupal
+	make backup-db
+
+backup-drupal:
+	chmod +x scripts/backup-sites.sh
+	./scripts/backup-sites.sh
+
+backup-db:
+	chmod +x scripts/backup-db.sh
+	./scripts/backup-db.sh
+
+restore:
+	chmod +x scripts/restore-sites.sh
+	./scripts/restore-sites.sh $(BACKUP)
+
+migrate-db:
+	./scripts/migrate-db-to-host.sh

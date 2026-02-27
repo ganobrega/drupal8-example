@@ -5,6 +5,30 @@ SITES_DEFAULT="/var/www/html/web/sites/default"
 FILES_DIR="${SITES_DEFAULT}/files"
 TRANSLATIONS_DIR="${FILES_DIR}/translations"
 
+# BACKUP_MOUNT="/backups"
+# SITES_ROOT="/var/www/html/web/sites"
+
+# # Restaurar último backup de sites, se existir e se o volume /backups estiver montado
+# if [ -d "${BACKUP_MOUNT}" ]; then
+#   LATEST_BACKUP="$(
+#     find "${BACKUP_MOUNT}" -maxdepth 1 -type f -name 'backup-*.tar.gz' -printf '%T@ %p\n' 2>/dev/null \
+#       | sort -n \
+#       | tail -n 1 \
+#       | awk '{print $2}'
+#   )"
+
+#   if [ -n "${LATEST_BACKUP:-}" ]; then
+#     echo "Restaurando conteúdo de sites a partir do backup: ${LATEST_BACKUP}"
+#     # O backup foi criado com -C app/web sites, então extraímos em /var/www/html/web
+#     tar -xzf "${LATEST_BACKUP}" -C /var/www/html/web
+#     chown -R www-data:www-data "${SITES_ROOT}"
+#   else
+#     echo "Nenhum backup encontrado em ${BACKUP_MOUNT}, seguindo sem restore."
+#   fi
+# else
+#   echo "Diretório de backups ${BACKUP_MOUNT} não montado, seguindo sem restore."
+# fi
+
 # Criar diretório de arquivos (uploads) com permissões para o Apache
 mkdir -p "${FILES_DIR}" "${TRANSLATIONS_DIR}"
 chown -R www-data:www-data "${FILES_DIR}"

@@ -2,20 +2,29 @@
 
 # Dependências
 /app/vendor/
+/drupal/vendor/
 
 # Arquivos gerados pelo Drupal
 /app/web/sites/*/files/
 /app/web/sites/*/private/
+/drupal/web/sites/*/files/
+/drupal/web/sites/*/private/
 
 # Configurações sensíveis
 /app/web/sites/*/settings.php
 /app/web/sites/*/settings.local.php
 /app/web/sites/*/services.yml
+/drupal/web/sites/*/settings.php
+/drupal/web/sites/*/settings.local.php
+/drupal/web/sites/*/services.yml
+
 
 # Docker / Ambiente
 .env
 .env.*
 docker-compose.override.yml
+/mysql-data/
+/backups/
 
 # Logs / Cache
 *.log
