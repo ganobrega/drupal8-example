@@ -1,4 +1,4 @@
-.PHONY: shell up down rebuild backup-drupal backup-db restore migrate-db
+.PHONY: shell up down rebuild backup-drupal backup-db restore restore-db migrate-db
 
 up:
 	docker compose up -d --build
@@ -29,6 +29,10 @@ backup-db:
 restore:
 	chmod +x scripts/restore-sites.sh
 	./scripts/restore-sites.sh $(BACKUP)
+
+restore-db:
+	chmod +x scripts/restore-db.sh
+	./scripts/restore-db.sh $(BACKUP)
 
 migrate-db:
 	./scripts/migrate-db-to-host.sh
