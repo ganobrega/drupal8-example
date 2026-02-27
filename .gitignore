@@ -16,6 +16,8 @@
 .env
 .env.*
 docker-compose.override.yml
+/mysql-data/
+/backups/
 
 # Logs / Cache
 *.log
